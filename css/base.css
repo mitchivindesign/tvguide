@@ -8,10 +8,14 @@ body {
     font-family: var(--font-family);
     background: var(--color-bg-primary);
     color: var(--color-text-primary);
-    height: 100vh;
+    height: 100dvh;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
 }
 
 /* Focus styles for accessibility */
