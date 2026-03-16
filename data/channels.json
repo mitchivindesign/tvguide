@@ -1,0 +1,33 @@
+{
+  "channels": [
+    { "name": "Sky Sport 1 NZ", "id": 403251, "region": "NZ", "category": "sport", "timezoneOffset": 2 },
+    { "name": "Sky Sport 2 NZ", "id": 403256, "region": "NZ", "category": "sport", "timezoneOffset": 2 },
+    { "name": "Sky Sport 3 NZ", "id": 403252, "region": "NZ", "category": "sport", "timezoneOffset": 2 },
+    { "name": "Sky Sport 4 NZ", "id": 403248, "region": "NZ", "category": "sport", "timezoneOffset": 2 },
+    { "name": "Sky Sport 5 NZ", "id": 403249, "region": "NZ", "category": "sport", "timezoneOffset": 2 },
+    { "name": "Sky Sport 6 NZ", "id": 403250, "region": "NZ", "category": "sport", "timezoneOffset": 2 },
+    { "name": "Sky Sports + UK", "id": 412959, "region": "UK", "category": "sport", "timezoneOffset": 0 },
+    { "name": "Sky Sports Premier League UK", "id": 6958, "region": "UK", "category": "sport", "timezoneOffset": 0 },
+    { "name": "Sky Sports News UK", "id": 6626, "region": "UK", "category": "sport", "timezoneOffset": 0 },
+    { "name": "BBC One UK", "id": 486880, "region": "UK", "category": "entertainment", "timezoneOffset": 0 },
+    { "name": "BBC Two UK", "id": 486673, "region": "UK", "category": "entertainment", "timezoneOffset": 0 },
+    { "name": "BBC Three UK", "id": 486878, "region": "UK", "category": "entertainment", "timezoneOffset": 0 },
+    { "name": "BBC News UK", "id": 12162, "region": "UK", "category": "news", "timezoneOffset": -10 },
+    { "name": "GB News UK", "id": 12133, "region": "UK", "category": "news", "timezoneOffset": -10 },
+    { "name": "Sky News UK", "id": 12069, "region": "UK", "category": "news", "timezoneOffset": -10 },
+    { "name": "ESPN US", "id": 465198, "region": "US", "category": "sport", "timezoneOffset": 0 },
+    { "name": "ESPN News US", "id": 417108, "region": "US", "category": "sport", "timezoneOffset": 0 },
+    { "name": "ESPN2 US", "id": 465373, "region": "US", "category": "sport", "timezoneOffset": 0 },
+    { "name": "ESPN U US", "id": 417125, "region": "US", "category": "sport", "timezoneOffset": 0 },
+    { "name": "NBA TV US", "id": 406263, "region": "US", "category": "sport", "timezoneOffset": 0 },
+    { "name": "NFL Network US", "id": 454083, "region": "US", "category": "sport", "timezoneOffset": 0 },
+    { "name": "Animal Planet US", "id": 465310, "region": "US", "category": "entertainment", "timezoneOffset": 0 },
+    { "name": "Cartoon Network US", "id": 464853, "region": "US", "category": "entertainment", "timezoneOffset": 0 },
+    { "name": "Comedy Central US", "id": 464922, "region": "US", "category": "entertainment", "timezoneOffset": 0 },
+    { "name": "Discovery Channel US", "id": 465364, "region": "US", "category": "entertainment", "timezoneOffset": 0 },
+    { "name": "HBO Comedy US", "id": 464953, "region": "US", "category": "entertainment", "timezoneOffset": 0 },
+    { "name": "Nickelodeon US", "id": 465251, "region": "US", "category": "entertainment", "timezoneOffset": 0 },
+    { "name": "TNT US", "id": 465114, "region": "US", "category": "entertainment", "timezoneOffset": 0 },
+    { "name": "MSNBC US", "id": 464889, "region": "US", "category": "news", "timezoneOffset": -10 }
+  ]
+}

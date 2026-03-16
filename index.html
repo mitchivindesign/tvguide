@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Multi-region Electronic Program Guide for sports, news, and entertainment channels">
+    <title>Global Guide - Multi-Region TV Guide</title>
+    <link rel="stylesheet" href="css/epg.css">
+</head>
+<body>
+    <header class="header">
+        <div class="controls">
+            <select id="categoryFilter" aria-label="Filter by category">
+                <option value="all">All Channels</option>
+                <option value="sport">Sport</option>
+                <option value="news">News</option>
+                <option value="entertainment">Entertainment</option>
+            </select>
+            <select id="regionFilter" aria-label="Filter by region">
+                <option value="all">All Regions</option>
+                <option value="NZ">New Zealand</option>
+                <option value="UK">United Kingdom</option>
+                <option value="US">United States</option>
+            </select>
+        </div>
+        <div id="clock" role="timer" aria-live="off"></div>
+    </header>
+    <main id="epg"></main>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
