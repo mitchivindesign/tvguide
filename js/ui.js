@@ -187,10 +187,64 @@ export async function renderEPG() {
         
         container.innerHTML = '';
         container.appendChild(grid);
+        
+        // Setup scroll direction locking for mobile
+        setupScrollLocking(container);
     } catch (error) {
         console.error('Failed to render EPG:', error);
         container.innerHTML = '<div class="error-state">Failed to load EPG data. Please try again.</div>';
     }
+}
+
+/**
+ * Setup scroll direction locking to prevent accidental horizontal scrolling on mobile
+ */
+function setupScrollLocking(container) {
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let scrollLocked = false;
+    let scrollDirection = null;
+    
+    const THRESHOLD = 10; // pixels to determine scroll direction
+    
+    container.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        scrollLocked = false;
+        scrollDirection = null;
+    }, { passive: true });
+    
+    container.addEventListener('touchmove', (e) => {
+        if (scrollLocked) return;
+        
+        const touchX = e.touches[0].clientX;
+        const touchY = e.touches[0].clientY;
+        const deltaX = Math.abs(touchX - touchStartX);
+        const deltaY = Math.abs(touchY - touchStartY);
+        
+        // Determine scroll direction once threshold is exceeded
+        if (deltaX > THRESHOLD || deltaY > THRESHOLD) {
+            scrollLocked = true;
+            
+            if (deltaY > deltaX) {
+                // Vertical scroll - disable horizontal
+                scrollDirection = 'vertical';
+                container.style.overflowX = 'hidden';
+            } else {
+                // Horizontal scroll - disable vertical
+                scrollDirection = 'horizontal';
+                container.style.overflowY = 'hidden';
+            }
+        }
+    }, { passive: true });
+    
+    container.addEventListener('touchend', () => {
+        // Re-enable both scroll directions
+        container.style.overflowX = 'auto';
+        container.style.overflowY = 'auto';
+        scrollLocked = false;
+        scrollDirection = null;
+    }, { passive: true });
 }
 
 /**

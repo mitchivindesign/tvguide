@@ -4,6 +4,7 @@
     box-sizing: border-box;
 }
 
+/* Prevent mobile overscroll/rubber-band effect */
 html {
     overflow: hidden;
     position: fixed;
@@ -23,7 +24,7 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    overscroll-behavior: none;
+    overscroll-behavior: none; /* Prevent pull-to-refresh and bounce */
 }
 
 /* Focus styles for accessibility */
@@ -58,7 +59,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: calc(100vh - var(--header-height));
+    height: 100%;
     font-size: var(--font-size-lg);
     color: var(--color-text-tertiary);
 }
