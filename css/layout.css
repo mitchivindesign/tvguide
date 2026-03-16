@@ -61,7 +61,8 @@ h1 {
     overflow-y: auto;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
+    overscroll-behavior: none;
+    position: relative;
 }
 
 #epg::-webkit-scrollbar {
@@ -73,6 +74,7 @@ h1 {
     display: inline-block;
     min-width: 100%;
     touch-action: pan-x pan-y;
+    overscroll-behavior: none;
 }
 
 /* Mobile responsive styles */
