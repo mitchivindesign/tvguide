@@ -11,20 +11,16 @@ export const REFRESH_INTERVAL = 10 * MS_PER_MINUTE;
 // Channel data loaded dynamically
 let channelsData = null;
 
+// Regional configuration for API queries and time normalization
+export const REGIONAL_CONFIG = {
+    'NZ': {
+        timezone: 'Pacific/Auckland',
+        shift: 1 * 60 * 60 * 1000 // 1 hour normalization shift for NZ DST discrepancies
+    }
+};
+
 /**
  * Load channels from JSON file
- * 
- * TIMEZONE OFFSET LOGIC:
- * The API returns times inconsistently depending on channel type:
- * - Sports channels: API returns UTC times (offset: 0 for UK/US, +2 for NZ to convert UTC-8 to UTC+10)
- * - News channels: API returns times in user's local timezone UTC+10 (offset: -10 to convert back to UTC)
- * - Entertainment channels: API returns UTC times (offset: 0 for UK/US)
- * 
- * User timezone: UTC+10 (Brisbane/Sydney)
- * NZ channels: timezoneOffset +2 (API returns UTC-8, need to add 2 to match UTC+10)
- * UK/US sports: timezoneOffset 0 (API returns UTC)
- * UK/US news: timezoneOffset -10 (API returns UTC+10, subtract 10 to get UTC)
- * UK/US entertainment: timezoneOffset 0 (API returns UTC)
  */
 export async function loadChannels() {
     if (channelsData) return channelsData;

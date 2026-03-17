@@ -9,17 +9,26 @@ Place channel logo files in this directory using the channel ID as the filename.
 - **Background:** Transparent
 
 ---
+ 
+ ## Australian Channels
+
+| Channel Name | Channel ID | Filename |
+|--------------|------------|----------|
+| FOX League | SP2 | `SP2.webp` |
+
+---
 
 ## New Zealand Channels
 
 | Channel Name | Channel ID | Filename |
 |--------------|------------|----------|
-| Sky Sport 1 NZ | 403251 | `403251.webp` |
-| Sky Sport 2 NZ | 403256 | `403256.webp` |
-| Sky Sport 3 NZ | 403252 | `403252.webp` |
-| Sky Sport 4 NZ | 403248 | `403248.webp` |
-| Sky Sport 5 NZ | 403249 | `403249.webp` |
-| Sky Sport 6 NZ | 403250 | `403250.webp` |
+| Sky Sport 1 HD | 403251 | `403251.webp` |
+| Sky Sport 2 HD | 403256 | `403256.webp` |
+| Sky Sport 3 HD | 403252 | `403252.webp` |
+| Sky Sport 4 HD | 403248 | `403248.webp` |
+| Sky Sport 5 HD | 403249 | `403249.webp` |
+| Sky Sport 6 HD | 403250 | `403250.webp` |
+
 
 ---
 
@@ -63,12 +72,12 @@ Place channel logo files in this directory using the channel ID as the filename.
 ## Quick Reference List
 
 ```
-403251.webp - Sky Sport 1 NZ
-403256.webp - Sky Sport 2 NZ
-403252.webp - Sky Sport 3 NZ
-403248.webp - Sky Sport 4 NZ
-403249.webp - Sky Sport 5 NZ
-403250.webp - Sky Sport 6 NZ
+403251.webp - Sky Sport 1 HD
+403256.webp - Sky Sport 2 HD
+403252.webp - Sky Sport 3 HD
+403248.webp - Sky Sport 4 HD
+403249.webp - Sky Sport 5 HD
+403250.webp - Sky Sport 6 HD
 412959.webp - Sky Sports + UK
 6958.webp - Sky Sports Premier League UK
 6626.webp - Sky Sports News UK
@@ -88,8 +97,4 @@ Place channel logo files in this directory using the channel ID as the filename.
 465114.webp - TNT US
 465198.webp - ESPN US
 417108.webp - ESPN News US
-465373.webp - ESPN2 US
-417125.webp - ESPN U US
-406263.webp - NBA TV US
-454083.webp - NFL Network US
-```
+465373.

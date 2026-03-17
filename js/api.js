@@ -1,66 +1,124 @@
-import { MS_PER_DAY } from './config.js';
-import { applyTimezoneOffset, getDateString } from './utils.js';
+import { MS_PER_DAY, REGIONAL_CONFIG } from './config.js';
+import { getDateString, parseXMLTVDate } from './utils.js';
 
 const API_BASE_URL = 'https://epg.pw/api/epg.json';
 
-// Cache structure: { channelId: { today: data, tomorrow: data, timestamp: number } }
+// Fetch cache: { channelId: { programs: Array, timestamp: number } }
 const epgCache = new Map();
+// XML document cache: { url: { doc: Document, timestamp: number } }
+const xmlCache = new Map();
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
 /**
- * Fetch EPG data for a specific channel with caching
- * @param {number} channelId - The channel ID
- * @param {number} timezoneOffset - Timezone offset in hours
- * @returns {Promise<Array>} Array of programs starting from current time
+ * Fetch EPG data for a channel from various sources (JSON or XMLTV)
+ * @param {Object} channel - The channel object from channels.json
+ * @returns {Promise<Array>} Array of programs
  */
-export async function fetchEPGForChannel(channelId, timezoneOffset) {
+export async function fetchEPGForChannel(channel) {
+    const { id, region, source = 'epg.pw', xmlid, url } = channel;
+    const now = Date.now();
+    
+    // Check cache
+    const cached = epgCache.get(id || xmlid);
+    if (cached && (now - cached.timestamp) < CACHE_DURATION) {
+        return cached.programs.filter(p => new Date(p.start_date).getTime() + (p.duration * 60000 || 3600000) > now);
+    }
+
     try {
-        const today = getDateString(new Date());
-        const tomorrow = getDateString(new Date(Date.now() + MS_PER_DAY));
-        const now = Date.now();
-        
-        // Check cache
-        const cached = epgCache.get(channelId);
-        if (cached && (now - cached.timestamp) < CACHE_DURATION) {
-            const allPrograms = [...(cached.today.epg_list || []), ...(cached.tomorrow.epg_list || [])];
-            const startIndex = findCurrentProgramIndex(allPrograms, now, timezoneOffset);
-            return allPrograms.slice(startIndex);
+        let programs = [];
+        if (source === 'xmltv') {
+            programs = await fetchXMLTVPrograms(url, xmlid);
+        } else {
+            programs = await fetchJSONPrograms(id, region);
         }
-        
-        // Fetch fresh data
-        const [todayData, tomorrowData] = await Promise.all([
-            fetch(`${API_BASE_URL}?lang=en&channel_id=${channelId}&date=${today}`).then(r => {
-                if (!r.ok) throw new Error(`HTTP error! status: ${r.status}`);
-                return r.json();
-            }),
-            fetch(`${API_BASE_URL}?lang=en&channel_id=${channelId}&date=${tomorrow}`).then(r => {
-                if (!r.ok) throw new Error(`HTTP error! status: ${r.status}`);
-                return r.json();
-            })
-        ]);
-        
-        // Update cache
-        epgCache.set(channelId, {
-            today: todayData,
-            tomorrow: tomorrowData,
+
+        // Cache result
+        epgCache.set(id || xmlid, {
+            programs,
             timestamp: now
         });
-        
-        const allPrograms = [...(todayData.epg_list || []), ...(tomorrowData.epg_list || [])];
-        const startIndex = findCurrentProgramIndex(allPrograms, now, timezoneOffset);
-        
-        return allPrograms.slice(startIndex);
+
+        const startIndex = findCurrentProgramIndex(programs, now);
+        return programs.slice(startIndex);
     } catch (error) {
-        console.error(`Failed to fetch EPG for channel ${channelId}:`, error);
+        console.error(`Failed to fetch EPG for channel ${channel.name}:`, error);
         return [];
     }
 }
 
 /**
- * Clear the EPG cache (useful for manual refresh)
+ * Fetch programs from XMLTV source
  */
-export function clearCache() {
-    epgCache.clear();
+async function fetchXMLTVPrograms(url, xmlid) {
+    const now = Date.now();
+    let doc;
+    
+    // Cache XML document
+    const cachedXml = xmlCache.get(url);
+    if (cachedXml && (now - cachedXml.timestamp) < CACHE_DURATION) {
+        doc = cachedXml.doc;
+    } else {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`XML fetch failed: ${response.status}`);
+        const text = await response.text();
+        doc = new DOMParser().parseFromString(text, 'text/xml');
+        xmlCache.set(url, { doc, timestamp: now });
+    }
+
+    const programs = [];
+    const nodes = doc.querySelectorAll(`programme[channel="${xmlid}"]`);
+    
+    nodes.forEach(node => {
+        const start = parseXMLTVDate(node.getAttribute('start'));
+        const stop = parseXMLTVDate(node.getAttribute('stop'));
+        const title = node.querySelector('title')?.textContent || 'No Title';
+        const desc = node.querySelector('desc')?.textContent || '';
+        
+        programs.push({
+            start_date: start.toISOString(),
+            title: title,
+            desc: desc,
+            duration: (stop.getTime() - start.getTime()) / 60000
+        });
+    });
+
+    return programs.sort((a, b) => new Date(a.start_date) - new Date(b.start_date));
+}
+
+/**
+ * Fetch programs from JSON source (epg.pw)
+ */
+async function fetchJSONPrograms(channelId, region) {
+    const now = Date.now();
+    const regional = REGIONAL_CONFIG[region] || {};
+    const tz = regional.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const today = getDateString(new Date());
+    const tomorrow = getDateString(new Date(now + MS_PER_DAY));
+    const encodedTz = btoa(tz);
+    const tzParam = `&timezone=${encodedTz}`;
+    
+    const [todayData, tomorrowData] = await Promise.all([
+        fetch(`${API_BASE_URL}?lang=en&channel_id=${channelId}&date=${today}${tzParam}`)
+            .then(r => r.ok ? r.json() : Promise.reject(r.status)),
+        fetch(`${API_BASE_URL}?lang=en&channel_id=${channelId}&date=${tomorrow}${tzParam}`)
+            .then(r => r.ok ? r.json() : Promise.reject(r.status))
+    ]);
+    
+    return processPrograms(todayData, tomorrowData, now, regional.shift);
+}
+
+/**
+ * Process and normalize program times
+ */
+function processPrograms(today, tomorrow, now, shift = 0) {
+    const allPrograms = [...(today.epg_list || []), ...(tomorrow.epg_list || [])].map(p => {
+        if (!shift) return p;
+        const shiftedStart = new Date(new Date(p.start_date).getTime() + shift);
+        return { ...p, start_date: shiftedStart.toISOString() };
+    });
+    
+    const startIndex = findCurrentProgramIndex(allPrograms, now);
+    return allPrograms.slice(startIndex);
 }
 
 /**
@@ -70,11 +128,11 @@ export function clearCache() {
  * @param {number} timezoneOffset - Timezone offset in hours
  * @returns {number} Index of current/next program
  */
-function findCurrentProgramIndex(programs, now, timezoneOffset) {
+function findCurrentProgramIndex(programs, now) {
     for (let i = 0; i < programs.length; i++) {
-        const programStart = applyTimezoneOffset(new Date(programs[i].start_date), timezoneOffset);
+        const programStart = new Date(programs[i].start_date);
         const nextProgramStart = programs[i + 1] 
-            ? applyTimezoneOffset(new Date(programs[i + 1].start_date), timezoneOffset)
+            ? new Date(programs[i + 1].start_date)
             : null;
         
         // If we're in this program

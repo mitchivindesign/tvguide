@@ -1,15 +1,15 @@
 import { PIXELS_PER_MINUTE, MIN_PROGRAM_WIDTH, MS_PER_HOUR, getChannels } from './config.js';
-import { formatTime, cleanTitle, applyTimezoneOffset } from './utils.js';
+import { formatTime, cleanTitle } from './utils.js';
 import { fetchEPGForChannel } from './api.js';
 import { state } from './state.js';
 
 /**
  * Create a program block element
  */
-function createProgramBlock(program, nextProgram, timezoneOffset, channelName) {
-    const start = applyTimezoneOffset(new Date(program.start_date), timezoneOffset);
+function createProgramBlock(program, nextProgram, channelName) {
+    const start = new Date(program.start_date);
     const end = nextProgram 
-        ? applyTimezoneOffset(new Date(nextProgram.start_date), timezoneOffset)
+        ? new Date(nextProgram.start_date)
         : new Date(start.getTime() + MS_PER_HOUR);
     
     const now = Date.now();
@@ -77,7 +77,7 @@ function createProgramBlock(program, nextProgram, timezoneOffset, channelName) {
 /**
  * Create a channel row element
  */
-function createChannelRow(channelName, programs, timezoneOffset, channelId) {
+function createChannelRow(channelName, programs, channel) {
     const row = document.createElement('div');
     row.className = 'channel-row';
     
@@ -89,7 +89,7 @@ function createChannelRow(channelName, programs, timezoneOffset, channelId) {
     
     const logo = document.createElement('img');
     logo.className = 'channel-logo';
-    logo.src = `assets/logos/${channelId}.webp`;
+    logo.src = channel.logo || `assets/logos/${channel.id || channel.xmlid}.webp`;
     logo.alt = `${channelName} logo`;
     logo.loading = 'lazy';
     
@@ -98,7 +98,7 @@ function createChannelRow(channelName, programs, timezoneOffset, channelId) {
         logo.style.display = 'none';
         const placeholder = document.createElement('div');
         placeholder.className = 'channel-logo-placeholder';
-        placeholder.textContent = 'LOGO';
+        placeholder.textContent = channelName.substring(0, 4).toUpperCase();
         placeholder.setAttribute('aria-hidden', 'true');
         channelNameDiv.appendChild(placeholder);
     };
@@ -113,7 +113,7 @@ function createChannelRow(channelName, programs, timezoneOffset, channelId) {
     
     if (programs.length > 0) {
         programs.forEach((program, i) => {
-            const programBlock = createProgramBlock(program, programs[i + 1], timezoneOffset, channelName);
+            const programBlock = createProgramBlock(program, programs[i + 1], channelName);
             programBlock.setAttribute('role', 'listitem');
             programsContainer.appendChild(programBlock);
         });
@@ -166,8 +166,8 @@ export async function renderEPG() {
     try {
         // Fetch all channels in parallel
         const channelPromises = filteredChannels.map(async (channel) => {
-            if (channel.id) {
-                const programs = await fetchEPGForChannel(channel.id, channel.timezoneOffset);
+            if (channel.id || channel.xmlid) {
+                const programs = await fetchEPGForChannel(channel);
                 return { channel, programs };
             }
             return { channel, programs: [] };
@@ -181,7 +181,7 @@ export async function renderEPG() {
         grid.setAttribute('aria-label', 'Electronic Program Guide');
         
         channelData.forEach(({ channel, programs }) => {
-            const row = createChannelRow(channel.name, programs, channel.timezoneOffset, channel.id);
+            const row = createChannelRow(channel.name, programs, channel);
             grid.appendChild(row);
         });
         

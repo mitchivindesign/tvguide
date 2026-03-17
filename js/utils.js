@@ -16,17 +16,6 @@ export function cleanTitle(title) {
     return (title || '').replace(/^[⋗⋖\s]+/, '').trim();
 }
 
-/**
- * Apply timezone offset to a date without mutation
- * @param {Date} date - The original date
- * @param {number} offsetHours - Hours to offset
- * @returns {Date} New date with offset applied
- */
-export function applyTimezoneOffset(date, offsetHours) {
-    const newDate = new Date(date);
-    newDate.setHours(newDate.getHours() + offsetHours);
-    return newDate;
-}
 
 /**
  * Get date string in YYYYMMDD format
@@ -35,4 +24,35 @@ export function applyTimezoneOffset(date, offsetHours) {
  */
 export function getDateString(date) {
     return date.toISOString().split('T')[0].replace(/-/g, '');
+}
+/**
+ * Parse XMLTV date string (YYYYMMDDHHMMSS +Offset)
+ * @param {string} xmltvDate - Date string from XMLTV
+ * @returns {Date} JavaScript Date object
+ */
+export function parseXMLTVDate(xmltvDate) {
+    if (!xmltvDate) return null;
+    const parts = xmltvDate.split(' ');
+    const s = parts[0];
+    const offset = parts[1] || '';
+    
+    const year = s.substring(0, 4);
+    const month = s.substring(4, 6);
+    const day = s.substring(6, 8);
+    const hour = s.substring(8, 10);
+    const min = s.substring(10, 12);
+    const sec = s.substring(12, 14);
+    
+    // Format to ISO with offset if present
+    let iso = `${year}-${month}-${day}T${hour}:${min}:${sec}`;
+    if (offset) {
+        const offsetSign = offset.substring(0, 1);
+        const offsetHours = offset.substring(1, 3);
+        const offsetMins = offset.substring(3, 5);
+        iso += `${offsetSign}${offsetHours}:${offsetMins}`;
+    } else {
+        iso += 'Z';
+    }
+    
+    return new Date(iso);
 }
