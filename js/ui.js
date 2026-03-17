@@ -49,13 +49,12 @@ function createProgramBlock(program, nextProgram, channelName) {
     // Check if title is truncated after element is rendered
     requestAnimationFrame(() => {
         const titleElement = programDiv.querySelector('.program-title');
-        const isTruncated = titleElement.scrollWidth > titleElement.clientWidth;
         
-        // Store the width needed for full text before any modifications
-        if (isTruncated) {
-            const neededWidth = titleElement.scrollWidth + (parseInt(getComputedStyle(programDiv).paddingLeft) * 2) + 20; // Add 20px buffer
-            programDiv.dataset.expandedWidth = Math.max(width, neededWidth, 120);
-        }
+        // Expanded width should accommodate the full title and at least enough room for time + date (min 250px)
+        const minExpandedWidth = 250;
+        const titleNeededWidth = titleElement.scrollWidth + (parseInt(getComputedStyle(programDiv).paddingLeft) * 2) + 20;
+        
+        programDiv.dataset.expandedWidth = Math.max(width, titleNeededWidth, minExpandedWidth);
         
         // Add click handler for all blocks
         programDiv.style.cursor = 'pointer';
@@ -169,7 +168,7 @@ function createChannelRow(channelName, programs, channel) {
 }
 
 /**
- * Filter channels based on current state
+ * Filter and sort channels based on current state
  */
 function getFilteredChannels() {
     const filters = state.getFilters();
@@ -182,8 +181,31 @@ function getFilteredChannels() {
     if (filters.region !== 'all') {
         filtered = filtered.filter(ch => ch.region === filters.region);
     }
-    
-    return filtered;
+
+    // Custom sorting: Region (NZ, UK, US) then Category (entertainment, sport, news)
+    const regionPriority = { 'NZ': 1, 'UK': 2, 'US': 3 };
+    const categoryPriority = { 'entertainment': 1, 'sport': 2, 'news': 3 };
+
+    return filtered.sort((a, b) => {
+        // First sort by region priority
+        const aRegionPrio = regionPriority[a.region] || 99;
+        const bRegionPrio = regionPriority[b.region] || 99;
+        
+        if (aRegionPrio !== bRegionPrio) {
+            return aRegionPrio - bRegionPrio;
+        }
+        
+        // Then sort by category priority
+        const aCatPrio = categoryPriority[a.category] || 99;
+        const bCatPrio = categoryPriority[b.category] || 99;
+        
+        if (aCatPrio !== bCatPrio) {
+            return aCatPrio - bCatPrio;
+        }
+        
+        // Finally sort by name
+        return a.name.localeCompare(b.name);
+    });
 }
 
 /**

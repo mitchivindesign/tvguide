@@ -9,6 +9,7 @@
 </head>
 <body>
     <header class="header">
+        <div id="clock" role="timer" aria-live="off"></div>
         <div class="controls">
             <select id="categoryFilter" aria-label="Filter by category">
                 <option value="all">All Channels</option>
@@ -23,7 +24,6 @@
                 <option value="US">United States</option>
             </select>
         </div>
-        <div id="clock" role="timer" aria-live="off"></div>
     </header>
     <main id="epg"></main>
     <script type="module" src="js/main.js"></script>

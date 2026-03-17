@@ -9,6 +9,10 @@
     { "name": "Sky Sports + UK", "id": 412959, "region": "UK", "category": "sport" },
     { "name": "Sky Sports Premier League UK", "id": 6958, "region": "UK", "category": "sport" },
     { "name": "Sky Sports News UK", "id": 6626, "region": "UK", "category": "sport" },
+    { "name": "TNT Sports 1 UK", "id": 400477, "region": "UK", "category": "sport", "source": "epg.pw" },
+    { "name": "TNT Sports 2 UK", "id": 400480, "region": "UK", "category": "sport", "source": "epg.pw" },
+    { "name": "TNT Sports 3 UK", "id": 400479, "region": "UK", "category": "sport", "source": "epg.pw" },
+    { "name": "TNT Sports 4 UK", "id": 400478, "region": "UK", "category": "sport", "source": "epg.pw" },
     { "name": "BBC One UK", "id": 486880, "region": "UK", "category": "entertainment" },
     { "name": "BBC Two UK", "id": 486673, "region": "UK", "category": "entertainment" },
     { "name": "BBC Three UK", "id": 486878, "region": "UK", "category": "entertainment" },
@@ -27,7 +31,11 @@
     { "name": "Discovery Channel US", "id": 465364, "region": "US", "category": "entertainment" },
     { "name": "HBO Comedy US", "id": 464953, "region": "US", "category": "entertainment" },
     { "name": "Nickelodeon US", "id": 465251, "region": "US", "category": "entertainment" },
+    { "name": "truTV US", "id": 464987, "region": "US", "category": "entertainment", "source": "epg.pw" },
     { "name": "TNT US", "id": 465114, "region": "US", "category": "entertainment", "source": "epg.pw" },
-    { "name": "MSNBC US", "id": 464889, "region": "US", "category": "news", "source": "epg.pw" }
+    { "name": "MSNBC US", "id": 464889, "region": "US", "category": "news", "source": "epg.pw" },
+    { "name": "CBS News US", "id": 464941, "region": "US", "category": "news", "source": "epg.pw" },
+    { "name": "CNBC US", "id": 464791, "region": "US", "category": "news", "source": "epg.pw" },
+    { "name": "Newsmax US", "id": 464863, "region": "US", "category": "news", "source": "epg.pw" }
   ]
 }

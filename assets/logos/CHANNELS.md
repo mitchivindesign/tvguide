@@ -35,6 +35,10 @@ Place channel logo files in this directory using the channel ID as the filename.
 | Sky Sports + UK | 412959 | `412959.png` |
 | Sky Sports Premier League UK | 6958 | `6958.png` |
 | Sky Sports News UK | 6626 | `6626.png` |
+| TNT Sports 1 UK | 400477 | `400477.png` |
+| TNT Sports 2 UK | 400480 | `400480.png` |
+| TNT Sports 3 UK | 400479 | `400479.png` |
+| TNT Sports 4 UK | 400478 | `400478.png` |
 | BBC News UK | 12162 | `12162.png` |
 | GB News UK | 12133 | `12133.png` |
 | Sky News UK | 12069 | `12069.png` |
@@ -61,7 +65,11 @@ Place channel logo files in this directory using the channel ID as the filename.
 | Discovery Channel US | 465364 | `465364.png` |
 | HBO Comedy US | 464953 | `464953.png` |
 | Nickelodeon US | 465251 | `465251.png` |
+| truTV US | 464987 | `464987.png` |
 | TNT US | 465114 | `465114.png` |
+| CBS News US | 464941 | `464941.png` |
+| CNBC US | 464791 | `464791.png` |
+| Newsmax US | 464863 | `464863.png` |
 
 ---
 
@@ -91,8 +99,12 @@ Place channel logo files in this directory using the channel ID as the filename.
 464953.png - HBO Comedy US
 465251.png - Nickelodeon US
 465114.png - TNT US
+464987.png - truTV US
 465373.png - ESPN2 US
 417125.png - ESPN U US
 406263.png - NBA TV US
 454083.png - NFL Network US
+464941.png - CBS News US
+464791.png - CNBC US
+464863.png - Newsmax US
 ```
