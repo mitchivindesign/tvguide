@@ -55,29 +55,26 @@ h1 {
     letter-spacing: 0.5px;
 }
 
-/* Main EPG container - handles both vertical and horizontal scrolling */
 #epg {
     flex: 1;
     overflow-x: auto;
     overflow-y: auto;
-    scrollbar-width: none; /* Hide scrollbar Firefox */
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling iOS */
-    overscroll-behavior: none; /* Prevent bounce/rubber-band */
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: none;
     position: relative;
 }
 
-/* Hide scrollbar Webkit browsers */
 #epg::-webkit-scrollbar {
     display: none;
 }
 
-/* EPG grid - inline-block allows horizontal expansion */
 .epg-grid {
     background: var(--color-bg-primary);
     display: inline-block;
     min-width: 100%;
-    touch-action: pan-x pan-y; /* Allow touch scrolling in both directions */
-    overscroll-behavior: none; /* Prevent bounce/rubber-band */
+    touch-action: pan-x pan-y;
+    overscroll-behavior: none;
 }
 
 /* Mobile responsive styles */
