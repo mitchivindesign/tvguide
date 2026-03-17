@@ -15,7 +15,7 @@ let channelsData = null;
 export const REGIONAL_CONFIG = {
     'NZ': {
         timezone: 'Pacific/Auckland',
-        shift: 1 * 60 * 60 * 1000 // 1 hour normalization shift for NZ DST discrepancies
+        shift: 1 * 60 * 60 * 1000 // 1 hour normalization shift
     }
 };
 

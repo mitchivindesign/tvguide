@@ -12,16 +12,18 @@ const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 /**
  * Fetch EPG data for a channel from various sources (JSON or XMLTV)
  * @param {Object} channel - The channel object from channels.json
+ * @param {number} [now=Date.now()] - Synchronized current timestamp
  * @returns {Promise<Array>} Array of programs
  */
-export async function fetchEPGForChannel(channel) {
+export async function fetchEPGForChannel(channel, now = Date.now()) {
     const { id, region, source = 'epg.pw', xmlid, url } = channel;
-    const now = Date.now();
     
     // Check cache
     const cached = epgCache.get(id || xmlid);
     if (cached && (now - cached.timestamp) < CACHE_DURATION) {
-        return cached.programs.filter(p => new Date(p.start_date).getTime() + (p.duration * 60000 || 3600000) > now);
+        // Find indices in full cached program list using synchronized 'now'
+        const startIndex = findCurrentProgramIndex(cached.programs, now);
+        return cached.programs.slice(startIndex);
     }
 
     try {
@@ -29,10 +31,10 @@ export async function fetchEPGForChannel(channel) {
         if (source === 'xmltv') {
             programs = await fetchXMLTVPrograms(url, xmlid);
         } else {
-            programs = await fetchJSONPrograms(id, region);
+            programs = await fetchJSONPrograms(id, region, now);
         }
 
-        // Cache result
+        // Cache result with FULL list (no slicing yet)
         epgCache.set(id || xmlid, {
             programs,
             timestamp: now
@@ -88,11 +90,11 @@ async function fetchXMLTVPrograms(url, xmlid) {
 /**
  * Fetch programs from JSON source (epg.pw)
  */
-async function fetchJSONPrograms(channelId, region) {
-    const now = Date.now();
+async function fetchJSONPrograms(channelId, region, now) {
     const regional = REGIONAL_CONFIG[region] || {};
     const tz = regional.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const today = getDateString(new Date());
+    const nowObj = new Date(now);
+    const today = getDateString(nowObj);
     const tomorrow = getDateString(new Date(now + MS_PER_DAY));
     const encodedTz = btoa(tz);
     const tzParam = `&timezone=${encodedTz}`;
@@ -117,8 +119,7 @@ function processPrograms(today, tomorrow, now, shift = 0) {
         return { ...p, start_date: shiftedStart.toISOString() };
     });
     
-    const startIndex = findCurrentProgramIndex(allPrograms, now);
-    return allPrograms.slice(startIndex);
+    return allPrograms;
 }
 
 /**

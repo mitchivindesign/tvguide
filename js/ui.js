@@ -5,6 +5,7 @@ import { state } from './state.js';
 
 const COLLAPSE_DELAY = 7000; // 7 seconds
 let collapseTimeout = null;
+let lastRenderId = 0;
 
 /**
  * Collapse a program block
@@ -20,13 +21,11 @@ function collapseBlock(block) {
 /**
  * Create a program block element
  */
-function createProgramBlock(program, nextProgram, channelName) {
+function createProgramBlock(program, nextProgram, channelName, now) {
     const start = new Date(program.start_date);
     const end = nextProgram 
         ? new Date(nextProgram.start_date)
         : new Date(start.getTime() + MS_PER_HOUR);
-    
-    const now = Date.now();
     const isCurrent = start.getTime() <= now && end.getTime() > now;
     
     // Calculate width based on remaining duration for current program
@@ -110,7 +109,7 @@ function createProgramBlock(program, nextProgram, channelName) {
 /**
  * Create a channel row element
  */
-function createChannelRow(channelName, programs, channel) {
+function createChannelRow(channelName, programs, channel, now) {
     const row = document.createElement('div');
     row.className = 'channel-row';
     
@@ -151,7 +150,7 @@ function createChannelRow(channelName, programs, channel) {
     
     if (programs.length > 0) {
         programs.forEach((program, i) => {
-            const programBlock = createProgramBlock(program, programs[i + 1], channelName);
+            const programBlock = createProgramBlock(program, programs[i + 1], channelName, now);
             programBlock.setAttribute('role', 'listitem');
             programsContainer.appendChild(programBlock);
         });
@@ -172,7 +171,7 @@ function createChannelRow(channelName, programs, channel) {
  */
 function getFilteredChannels() {
     const filters = state.getFilters();
-    let filtered = getChannels();
+    let filtered = [...getChannels()];
     
     if (filters.category !== 'all') {
         filtered = filtered.filter(ch => ch.category === filters.category);
@@ -213,9 +212,13 @@ function getFilteredChannels() {
  */
 export async function renderEPG() {
     const container = document.getElementById('epg');
+    const renderId = ++lastRenderId;
+    const now = Date.now();
     
-    // Show loading state
-    container.innerHTML = '<div class="loading">Loading EPG data...</div>';
+    // Only show loading if empty
+    if (!container.querySelector('.epg-grid')) {
+        container.innerHTML = '<div class="loading">Loading EPG data...</div>';
+    }
     
     const filteredChannels = getFilteredChannels();
     
@@ -228,7 +231,7 @@ export async function renderEPG() {
         // Fetch all channels in parallel
         const channelPromises = filteredChannels.map(async (channel) => {
             if (channel.id || channel.xmlid) {
-                const programs = await fetchEPGForChannel(channel);
+                const programs = await fetchEPGForChannel(channel, now);
                 return { channel, programs };
             }
             return { channel, programs: [] };
@@ -236,13 +239,16 @@ export async function renderEPG() {
         
         const channelData = await Promise.all(channelPromises);
         
+        // Bail if a newer render has started
+        if (renderId !== lastRenderId) return;
+
         const grid = document.createElement('div');
         grid.className = 'epg-grid';
         grid.setAttribute('role', 'region');
         grid.setAttribute('aria-label', 'Electronic Program Guide');
         
         channelData.forEach(({ channel, programs }) => {
-            const row = createChannelRow(channel.name, programs, channel);
+            const row = createChannelRow(channel.name, programs, channel, now);
             grid.appendChild(row);
         });
         
