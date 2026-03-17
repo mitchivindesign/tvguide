@@ -1,10 +1,18 @@
-/**
- * Format a Date object to HH:MM string
- * @param {Date} date - The date to format
- * @returns {string} Formatted time string
- */
 export function formatTime(date) {
     return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+}
+
+/**
+ * Format a Date object to DD/MM string
+ * @param {Date} date - The date to format
+ * @returns {string} Formatted date string
+ */
+export function formatDate(date) {
+    const months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    return `${months[date.getMonth()]} ${date.getDate()}`;
 }
 
 /**

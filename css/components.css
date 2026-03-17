@@ -116,6 +116,19 @@
     font-weight: var(--font-weight-normal);
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.program-date {
+    display: none;
+    margin-left: auto;
+}
+
+.program.expanded .program-date {
+    display: inline;
 }
 
 .program-current .program-time {

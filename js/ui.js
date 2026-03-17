@@ -1,7 +1,21 @@
 import { PIXELS_PER_MINUTE, MIN_PROGRAM_WIDTH, MS_PER_HOUR, getChannels } from './config.js';
-import { formatTime, cleanTitle } from './utils.js';
+import { formatTime, cleanTitle, formatDate } from './utils.js';
 import { fetchEPGForChannel } from './api.js';
 import { state } from './state.js';
+
+const COLLAPSE_DELAY = 7000; // 7 seconds
+let collapseTimeout = null;
+
+/**
+ * Collapse a program block
+ */
+function collapseBlock(block) {
+    if (!block) return;
+    block.classList.remove('expanded');
+    if (block.dataset.expandedWidth) {
+        block.style.width = `${block.dataset.originalWidth}px`;
+    }
+}
 
 /**
  * Create a program block element
@@ -29,7 +43,7 @@ function createProgramBlock(program, nextProgram, channelName) {
     
     programDiv.innerHTML = `
         <div class="program-title">${cleanTitle(program.title)}</div>
-        <div class="program-time">${formatTime(start)} - ${formatTime(end)}</div>
+        <div class="program-time">${formatTime(start)} - ${formatTime(end)} <span class="program-date">${formatDate(start)}</span></div>
     `;
     
     // Check if title is truncated after element is rendered
@@ -43,32 +57,52 @@ function createProgramBlock(program, nextProgram, channelName) {
             programDiv.dataset.expandedWidth = Math.max(width, neededWidth, 120);
         }
         
-        // Only add click handler if text is truncated
-        if (isTruncated) {
-            programDiv.style.cursor = 'pointer';
-            programDiv.classList.add('program-clickable');
+        // Add click handler for all blocks
+        programDiv.style.cursor = 'pointer';
+        programDiv.classList.add('program-clickable');
+        
+        const startCollapseTimer = () => {
+            clearTimeout(collapseTimeout);
+            collapseTimeout = setTimeout(() => {
+                collapseBlock(programDiv);
+            }, COLLAPSE_DELAY);
+        };
+
+        programDiv.addEventListener('click', (e) => {
+            e.stopPropagation();
             
-            programDiv.addEventListener('click', (e) => {
-                e.stopPropagation();
-                
-                // Collapse any other expanded blocks
-                document.querySelectorAll('.program.expanded').forEach(block => {
-                    if (block !== programDiv) {
-                        block.classList.remove('expanded');
-                        block.style.width = `${block.dataset.originalWidth}px`;
-                    }
-                });
-                
-                // Toggle this block
-                if (programDiv.classList.contains('expanded')) {
-                    programDiv.classList.remove('expanded');
-                    programDiv.style.width = `${width}px`;
-                } else {
-                    programDiv.classList.add('expanded');
-                    programDiv.style.width = `${programDiv.dataset.expandedWidth}px`;
+            // Collapse any other expanded blocks
+            document.querySelectorAll('.program.expanded').forEach(block => {
+                if (block !== programDiv) {
+                    collapseBlock(block);
                 }
             });
-        }
+            
+            // Toggle this block
+            if (programDiv.classList.contains('expanded')) {
+                collapseBlock(programDiv);
+                clearTimeout(collapseTimeout);
+            } else {
+                programDiv.classList.add('expanded');
+                if (programDiv.dataset.expandedWidth) {
+                    programDiv.style.width = `${programDiv.dataset.expandedWidth}px`;
+                }
+                startCollapseTimer();
+            }
+        });
+
+        // Hover listeners to manage auto-collapse
+        programDiv.addEventListener('mouseenter', () => {
+            if (programDiv.classList.contains('expanded')) {
+                clearTimeout(collapseTimeout);
+            }
+        });
+
+        programDiv.addEventListener('mouseleave', () => {
+            if (programDiv.classList.contains('expanded')) {
+                startCollapseTimer();
+            }
+        });
     });
     
     return programDiv;
@@ -204,6 +238,7 @@ export async function renderEPG() {
 export function updateClock() {
     const clockElement = document.getElementById('clock');
     if (clockElement) {
-        clockElement.textContent = formatTime(new Date());
+        const now = new Date();
+        clockElement.innerHTML = `${formatTime(now)} <span class="header-date">${formatDate(now)}</span>`;
     }
 }

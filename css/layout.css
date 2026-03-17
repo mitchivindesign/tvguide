@@ -24,22 +24,34 @@ h1 {
 }
 
 .controls select {
-    background: var(--color-bg-tertiary);
-    border: 1px solid var(--color-border);
+    appearance: none;
+    background-color: var(--color-bg-tertiary);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2310B981'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--spacing-sm) center;
+    background-size: 16px;
+    border: 1px solid var(--color-border-light);
     color: var(--color-text-secondary);
-    padding: var(--spacing-xs) var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-lg) var(--spacing-xs) var(--spacing-sm);
     border-radius: var(--radius-md);
     font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-medium);
     cursor: pointer;
     outline: none;
     transition: all var(--transition-fast);
+    min-width: 140px;
 }
 
 .controls select:hover {
-    background: var(--color-bg-primary);
-    border-color: var(--color-border-light);
+    background-color: var(--color-bg-primary);
+    border-color: var(--color-accent);
     color: var(--color-text-primary);
+    box-shadow: 0 0 0 1px var(--color-accent-dim);
+}
+
+.controls select:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 2px var(--color-accent-dim);
 }
 
 .controls select option {
@@ -48,11 +60,22 @@ h1 {
 }
 
 #clock {
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-primary);
+    font-size: 18px;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-accent);
     font-variant-numeric: tabular-nums;
-    letter-spacing: 0.5px;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-xs);
+}
+
+.header-date {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-normal);
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 #epg {
@@ -100,6 +123,10 @@ h1 {
     #clock {
         font-size: 13px;
     }
+
+    .header-date {
+        display: none;
+    }
 }
 
 @media (max-width: 480px) {
@@ -121,5 +148,9 @@ h1 {
     
     #clock {
         font-size: 12px;
+    }
+
+    .header-date {
+        display: none;
     }
 }
