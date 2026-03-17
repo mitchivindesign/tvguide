@@ -28,7 +28,6 @@
     { "name": "HBO Comedy US", "id": 464953, "region": "US", "category": "entertainment" },
     { "name": "Nickelodeon US", "id": 465251, "region": "US", "category": "entertainment" },
     { "name": "TNT US", "id": 465114, "region": "US", "category": "entertainment", "source": "epg.pw" },
-    { "name": "MSNBC US", "id": 464889, "region": "US", "category": "news", "source": "epg.pw" },
-    { "name": "FOX League", "xmlid": "SP2", "region": "AU", "category": "sport", "source": "xmltv", "url": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/refs/heads/master/Foxtel/epg.xml" }
+    { "name": "MSNBC US", "id": 464889, "region": "US", "category": "news", "source": "epg.pw" }
   ]
 }

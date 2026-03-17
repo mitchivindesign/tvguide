@@ -93,14 +93,19 @@ function createChannelRow(channelName, programs, channel) {
     logo.alt = `${channelName} logo`;
     logo.loading = 'lazy';
     
-    // Fallback to placeholder on error
+    // Fallback logic: try .png if .webp fails, then placeholder
     logo.onerror = () => {
-        logo.style.display = 'none';
-        const placeholder = document.createElement('div');
-        placeholder.className = 'channel-logo-placeholder';
-        placeholder.textContent = channelName.substring(0, 4).toUpperCase();
-        placeholder.setAttribute('aria-hidden', 'true');
-        channelNameDiv.appendChild(placeholder);
+        if (logo.src.endsWith('.webp')) {
+            const pngPath = logo.src.replace('.webp', '.png');
+            logo.src = pngPath;
+        } else {
+            logo.style.display = 'none';
+            const placeholder = document.createElement('div');
+            placeholder.className = 'channel-logo-placeholder';
+            placeholder.textContent = channelName.substring(0, 4).toUpperCase();
+            placeholder.setAttribute('aria-hidden', 'true');
+            channelNameDiv.appendChild(placeholder);
+        }
     };
     
     channelNameDiv.appendChild(logo);
