@@ -203,6 +203,7 @@ function setupScrollLocking(container) {
     let touchStartX = 0;
     let touchStartY = 0;
     let scrollLocked = false;
+    let scrollDirection = null;
     
     const THRESHOLD = 10; // pixels to determine scroll direction
     
@@ -210,6 +211,7 @@ function setupScrollLocking(container) {
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
         scrollLocked = false;
+        scrollDirection = null;
     }, { passive: true });
     
     container.addEventListener('touchmove', (e) => {
@@ -225,19 +227,23 @@ function setupScrollLocking(container) {
             scrollLocked = true;
             
             if (deltaY > deltaX) {
-                // Vertical scroll detected - lock to vertical only
-                container.style.touchAction = 'pan-y';
+                // Vertical scroll - disable horizontal
+                scrollDirection = 'vertical';
+                container.style.overflowX = 'hidden';
             } else {
-                // Horizontal scroll detected - lock to horizontal only
-                container.style.touchAction = 'pan-x';
+                // Horizontal scroll - disable vertical
+                scrollDirection = 'horizontal';
+                container.style.overflowY = 'hidden';
             }
         }
     }, { passive: true });
     
     container.addEventListener('touchend', () => {
         // Re-enable both scroll directions
-        container.style.touchAction = 'pan-x pan-y';
+        container.style.overflowX = 'auto';
+        container.style.overflowY = 'auto';
         scrollLocked = false;
+        scrollDirection = null;
     }, { passive: true });
 }
 
