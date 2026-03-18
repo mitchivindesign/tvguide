@@ -105,6 +105,42 @@ function initEventListeners() {
         });
     }
 
+    // Touch axis lock — prevent diagonal drift on the EPG scroll container
+    const epg = document.getElementById('epg');
+    if (epg) {
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let lastY = 0;
+        let lockedAxis = null;
+
+        epg.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            lastY = e.touches[0].clientY;
+            lockedAxis = null;
+        }, { passive: true });
+
+        epg.addEventListener('touchmove', (e) => {
+            const dx = Math.abs(e.touches[0].clientX - touchStartX);
+            const dy = Math.abs(e.touches[0].clientY - touchStartY);
+
+            if (!lockedAxis && (dx > 4 || dy > 4)) {
+                lockedAxis = dx > dy ? 'x' : 'y';
+            }
+
+            if (lockedAxis === 'y') {
+                // Block horizontal, manually drive vertical scroll
+                e.preventDefault();
+                const currentY = e.touches[0].clientY;
+                epg.scrollTop -= currentY - lastY;
+                lastY = currentY;
+            }
+            // lockedAxis === 'x': let browser handle horizontal natively
+        }, { passive: false });
+
+        epg.addEventListener('touchend', () => { lockedAxis = null; }, { passive: true });
+    }
+
     // Subscribe to state changes
     state.subscribe(async () => {
         await renderEPG();
