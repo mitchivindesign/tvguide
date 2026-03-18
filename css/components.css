@@ -37,13 +37,14 @@
     display: block;
 }
 
+
 .programs {
     display: flex;
     height: 100%;
 }
 
 .program {
-    padding: calc(var(--spacing-sm) * var(--scale));
+    padding: calc(var(--spacing-xs) * var(--scale));
     background: var(--color-overlay);
     border-right: 1px solid var(--color-border);
     flex-shrink: 0;
@@ -68,11 +69,14 @@
 
 .program-current {
     background: var(--color-accent-dim);
-    border-left: 2px solid var(--color-accent);
 }
 
 .program-current:hover {
     background: var(--color-accent-hover);
+}
+
+.has-current .channel-name {
+    border-right: 2px solid var(--color-accent);
 }
 
 .program.expanded .program-title {

@@ -42,9 +42,9 @@
     --scale: 1;
     --header-scale: 1;
     --header-height: calc(50px * var(--header-scale));
-    --channel-name-width: calc(100px * var(--scale));
-    --channel-row-height: calc(70px * var(--scale));
-    --channel-logo-size: calc(60px * var(--scale));
+    --channel-name-width: calc(80px * var(--scale));
+    --channel-row-height: calc(64px * var(--scale));
+    --channel-logo-size: calc(48px * var(--scale));
     --program-min-width: calc(120px * var(--scale));
 
     /* Controls */
@@ -65,14 +65,14 @@
 
 @media (max-width: 767px) {
     :root {
-        --scale: 0.85;
-        --header-scale: 1;
+        --scale: 1.05;
+        --header-scale: 1.2;
     }
 }
 
 @media (min-width: 768px) and (max-width: 1400px) {
     :root {
-        --scale: 1.3;
-        --header-scale: 1.5;
+        --scale: 1.5;
+        --header-scale: 1.7;
     }
 }

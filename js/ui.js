@@ -46,7 +46,7 @@ function createProgramBlock(program, nextProgram, now) {
     requestAnimationFrame(() => {
         const titleElement = programDiv.querySelector('.program-title');
         const titleNeededWidth = titleElement.scrollWidth + (parseInt(getComputedStyle(programDiv).paddingLeft) * 2) + 20;
-        programDiv.dataset.expandedWidth = Math.max(width, titleNeededWidth, 250);
+        programDiv.dataset.expandedWidth = Math.max(width, titleNeededWidth, 250 * scale);
 
         const startCollapseTimer = () => {
             clearTimeout(collapseTimeout);
@@ -62,8 +62,13 @@ function createProgramBlock(program, nextProgram, now) {
                 collapseBlock(programDiv);
                 clearTimeout(collapseTimeout);
             } else {
+                // Recalculate at click time for accurate scrollWidth
+                const currentScale = getScale();
+                const titleWidth = titleElement.scrollWidth + (parseInt(getComputedStyle(programDiv).paddingLeft) * 2) + 20;
+                const expandedWidth = Math.max(parseFloat(programDiv.dataset.originalWidth), titleWidth, 250 * currentScale);
+                programDiv.dataset.expandedWidth = expandedWidth;
                 programDiv.classList.add('expanded');
-                programDiv.style.width = `${programDiv.dataset.expandedWidth}px`;
+                programDiv.style.width = `${expandedWidth}px`;
                 startCollapseTimer();
             }
         });
@@ -105,7 +110,9 @@ function createChannelRow(channel, programs, now) {
 
     if (programs.length > 0) {
         programs.forEach((program, i) => {
-            programsContainer.appendChild(createProgramBlock(program, programs[i + 1], now));
+            const block = createProgramBlock(program, programs[i + 1], now);
+            if (block.classList.contains('program-current')) row.classList.add('has-current');
+            programsContainer.appendChild(block);
         });
     } else {
         const placeholder = document.createElement('div');
