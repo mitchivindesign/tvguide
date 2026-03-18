@@ -14,7 +14,7 @@
 
 .search-wrap {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
 }
 
 .search-wrap input {
@@ -24,7 +24,7 @@
     color: var(--color-text-secondary);
     padding: calc(var(--spacing-xs) * var(--header-scale)) calc(var(--spacing-sm) * var(--header-scale));
     border-radius: var(--radius-md);
-    font-size: calc(var(--font-size-sm) * var(--header-scale));
+    font-size: max(16px, calc(var(--font-size-sm) * var(--header-scale)));
     font-weight: var(--font-weight-medium);
     outline: none;
     transition: all var(--transition-fast);
@@ -49,7 +49,7 @@
     display: flex;
     gap: var(--spacing-sm);
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
 }
 
 .controls select {
@@ -89,23 +89,52 @@
 }
 
 #clock {
-    font-size: calc(var(--font-size-lg) * var(--header-scale));
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-accent);
     font-variant-numeric: tabular-nums;
-    letter-spacing: -0.02em;
     display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: var(--spacing-xs);
+    gap: var(--spacing-md);
     white-space: nowrap;
 }
 
-.header-date {
-    font-size: calc(var(--font-size-base) * var(--header-scale));
-    font-weight: var(--font-weight-normal);
+#timeLabel {
+    display: flex;
+    align-items: center;
+}
+
+.clock-time {
+    font-size: calc(var(--font-size-lg) * var(--header-scale));
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-accent);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.time-btn {
+    appearance: none;
+    background-color: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    color: var(--color-accent);
+    cursor: pointer;
+    padding: 0 calc(var(--spacing-xs) * var(--header-scale));
+    height: calc(var(--spacing-xs) * var(--header-scale) * 2 + var(--font-size-sm) * var(--header-scale));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.time-btn:hover {
+    background-color: var(--color-bg-primary);
+    border-color: var(--color-accent);
+}
+
+.time-btn:disabled {
     color: var(--color-text-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    border-color: var(--color-border);
+    cursor: default;
 }
 
 #epg {
@@ -217,7 +246,7 @@
         border-radius: var(--radius-md);
         color: var(--color-text-secondary);
         padding: calc(var(--spacing-xs) * var(--header-scale)) calc(var(--spacing-sm) * var(--header-scale));
-        font-size: calc(var(--font-size-sm) * var(--header-scale));
+        font-size: 16px;
         outline: none;
         transition: all var(--transition-fast);
     }

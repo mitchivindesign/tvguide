@@ -6,6 +6,7 @@ class State {
         this.regionFilter = 'all';
         this.categoryFilter = 'all';
         this.searchQuery = '';
+        this.timeOffset = 0;
         this.listeners = [];
     }
 
@@ -24,11 +25,17 @@ class State {
         this.notify();
     }
 
+    setTimeOffset(value) {
+        this.timeOffset = Math.max(0, value);
+        this.notify();
+    }
+
     getFilters() {
         return {
             region: this.regionFilter,
             category: this.categoryFilter,
-            search: this.searchQuery
+            search: this.searchQuery,
+            timeOffset: this.timeOffset
         };
     }
 

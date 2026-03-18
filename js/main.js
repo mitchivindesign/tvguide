@@ -87,6 +87,24 @@ function initEventListeners() {
         });
     }
 
+    // Time navigation
+    const timeBack = document.getElementById('timeBack');
+    const timeForward = document.getElementById('timeForward');
+
+    if (timeBack) {
+        timeBack.addEventListener('click', () => {
+            state.setTimeOffset(state.timeOffset - 1);
+            updateClock();
+        });
+    }
+
+    if (timeForward) {
+        timeForward.addEventListener('click', () => {
+            state.setTimeOffset(state.timeOffset + 1);
+            updateClock();
+        });
+    }
+
     // Subscribe to state changes
     state.subscribe(async () => {
         await renderEPG();

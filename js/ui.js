@@ -141,7 +141,8 @@ function getFilteredChannels() {
 export async function renderEPG() {
     const container = document.getElementById('epg');
     const renderId = ++lastRenderId;
-    const now = Date.now();
+    const { timeOffset } = state.getFilters();
+    const now = Date.now() + (timeOffset * MS_PER_HOUR);
 
     if (!container.querySelector('.epg-grid')) {
         container.innerHTML = '<div class="loading">Loading EPG data...</div>';
@@ -188,9 +189,14 @@ export async function renderEPG() {
 }
 
 export function updateClock() {
-    const clockElement = document.getElementById('clock');
-    if (clockElement) {
-        const now = new Date();
-        clockElement.innerHTML = `${formatTime(now)} <span class="header-date">${formatDate(now)}</span>`;
-    }
+    const { timeOffset } = state.getFilters();
+    const label = document.getElementById('timeLabel');
+    const backBtn = document.getElementById('timeBack');
+    if (!label) return;
+
+    const viewTime = timeOffset === 0 ? new Date() : new Date(Date.now() + timeOffset * MS_PER_HOUR);
+    label.innerHTML = `<span class="clock-time">${formatTime(viewTime)}</span>`;
+    if (backBtn) backBtn.disabled = timeOffset === 0;
 }
+
+
