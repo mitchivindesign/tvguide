@@ -1,41 +1,403 @@
 {
   "channels": [
-    { "name": "Sky Sport 1 HD", "id": 403251, "region": "NZ", "category": "sport" },
-    { "name": "Sky Sport 2 HD", "id": 403256, "region": "NZ", "category": "sport" },
-    { "name": "Sky Sport 3 HD", "id": 403252, "region": "NZ", "category": "sport" },
-    { "name": "Sky Sport 4 HD", "id": 403248, "region": "NZ", "category": "sport" },
-    { "name": "Sky Sport 5 HD", "id": 403249, "region": "NZ", "category": "sport" },
-    { "name": "Sky Sport 6 HD", "id": 403250, "region": "NZ", "category": "sport" },
-    { "name": "Sky Sports + UK", "id": 412959, "region": "UK", "category": "sport" },
-    { "name": "Sky Sports Premier League UK", "id": 6958, "region": "UK", "category": "sport" },
-    { "name": "Sky Sports News UK", "id": 6626, "region": "UK", "category": "sport" },
-    { "name": "TNT Sports 1 UK", "id": 400477, "region": "UK", "category": "sport", "source": "epg.pw" },
-    { "name": "TNT Sports 2 UK", "id": 400480, "region": "UK", "category": "sport", "source": "epg.pw" },
-    { "name": "TNT Sports 3 UK", "id": 400479, "region": "UK", "category": "sport", "source": "epg.pw" },
-    { "name": "TNT Sports 4 UK", "id": 400478, "region": "UK", "category": "sport", "source": "epg.pw" },
-    { "name": "BBC One UK", "id": 486880, "region": "UK", "category": "entertainment" },
-    { "name": "BBC Two UK", "id": 486673, "region": "UK", "category": "entertainment" },
-    { "name": "BBC Three UK", "id": 486878, "region": "UK", "category": "entertainment" },
-    { "name": "BBC News UK", "id": 12162, "region": "UK", "category": "news" },
-    { "name": "GB News UK", "id": 12133, "region": "UK", "category": "news" },
-    { "name": "Sky News UK", "id": 12069, "region": "UK", "category": "news" },
-    { "name": "ESPN US", "id": 465198, "region": "US", "category": "sport" },
-    { "name": "ESPN News US", "id": 417108, "region": "US", "category": "sport" },
-    { "name": "ESPN2 US", "id": 465373, "region": "US", "category": "sport" },
-    { "name": "ESPN U US", "id": 417125, "region": "US", "category": "sport" },
-    { "name": "NBA TV US", "id": 406263, "region": "US", "category": "sport" },
-    { "name": "NFL Network US", "id": 454083, "region": "US", "category": "sport" },
-    { "name": "Animal Planet US", "id": 465310, "region": "US", "category": "entertainment" },
-    { "name": "Cartoon Network US", "id": 464853, "region": "US", "category": "entertainment" },
-    { "name": "Comedy Central US", "id": 464922, "region": "US", "category": "entertainment" },
-    { "name": "Discovery Channel US", "id": 465364, "region": "US", "category": "entertainment" },
-    { "name": "HBO Comedy US", "id": 464953, "region": "US", "category": "entertainment" },
-    { "name": "Nickelodeon US", "id": 465251, "region": "US", "category": "entertainment" },
-    { "name": "truTV US", "id": 464987, "region": "US", "category": "entertainment", "source": "epg.pw" },
-    { "name": "TNT US", "id": 465114, "region": "US", "category": "entertainment", "source": "epg.pw" },
-    { "name": "MSNBC US", "id": 464889, "region": "US", "category": "news", "source": "epg.pw" },
-    { "name": "CBS News US", "id": 464941, "region": "US", "category": "news", "source": "epg.pw" },
-    { "name": "CNBC US", "id": 464791, "region": "US", "category": "news", "source": "epg.pw" },
-    { "name": "Newsmax US", "id": 464863, "region": "US", "category": "news", "source": "epg.pw" }
+    {
+      "name": "Sky Sport 1 HD",
+      "id": 403251,
+      "region": "NZ",
+      "category": "sport"
+    },
+    {
+      "name": "Sky Sport 2 HD",
+      "id": 403256,
+      "region": "NZ",
+      "category": "sport"
+    },
+    {
+      "name": "Sky Sport 3 HD",
+      "id": 403252,
+      "region": "NZ",
+      "category": "sport"
+    },
+    {
+      "name": "Sky Sport 4 HD",
+      "id": 403248,
+      "region": "NZ",
+      "category": "sport"
+    },
+    {
+      "name": "Sky Sport 5 HD",
+      "id": 403249,
+      "region": "NZ",
+      "category": "sport"
+    },
+    {
+      "name": "Sky Sport 6 HD",
+      "id": 403250,
+      "region": "NZ",
+      "category": "sport"
+    },
+    {
+      "name": "Sky Sports + UK",
+      "id": 412959,
+      "region": "UK",
+      "category": "sport"
+    },
+    {
+      "name": "Sky Sports Premier League UK",
+      "id": 6958,
+      "region": "UK",
+      "category": "sport"
+    },
+    {
+      "name": "Sky Sports News UK",
+      "id": 6626,
+      "region": "UK",
+      "category": "sport"
+    },
+    {
+      "name": "TNT Sports 1 UK",
+      "id": 400477,
+      "region": "UK",
+      "category": "sport",
+      "source": "epg.pw"
+    },
+    {
+      "name": "TNT Sports 2 UK",
+      "id": 400480,
+      "region": "UK",
+      "category": "sport",
+      "source": "epg.pw"
+    },
+    {
+      "name": "TNT Sports 3 UK",
+      "id": 400479,
+      "region": "UK",
+      "category": "sport",
+      "source": "epg.pw"
+    },
+    {
+      "name": "TNT Sports 4 UK",
+      "id": 400478,
+      "region": "UK",
+      "category": "sport",
+      "source": "epg.pw"
+    },
+    {
+      "name": "BBC One UK",
+      "id": 486880,
+      "region": "UK",
+      "category": "entertainment"
+    },
+    {
+      "name": "BBC Two UK",
+      "id": 486673,
+      "region": "UK",
+      "category": "entertainment"
+    },
+    {
+      "name": "BBC Three UK",
+      "id": 486878,
+      "region": "UK",
+      "category": "entertainment"
+    },
+    {
+      "name": "BBC News UK",
+      "id": 12162,
+      "region": "UK",
+      "category": "news"
+    },
+    {
+      "name": "GB News UK",
+      "id": 12133,
+      "region": "UK",
+      "category": "news"
+    },
+    {
+      "name": "Sky News UK",
+      "id": 12069,
+      "region": "UK",
+      "category": "news"
+    },
+    {
+      "name": "ESPN US",
+      "id": 465198,
+      "region": "US",
+      "category": "sport"
+    },
+    {
+      "name": "ESPN News US",
+      "id": 417108,
+      "region": "US",
+      "category": "sport"
+    },
+    {
+      "name": "ESPN2 US",
+      "id": 465373,
+      "region": "US",
+      "category": "sport"
+    },
+    {
+      "name": "ESPN U US",
+      "id": 417125,
+      "region": "US",
+      "category": "sport"
+    },
+    {
+      "name": "NBA TV US",
+      "id": 406263,
+      "region": "US",
+      "category": "sport"
+    },
+    {
+      "name": "NFL Network US",
+      "id": 454083,
+      "region": "US",
+      "category": "sport"
+    },
+    {
+      "name": "Animal Planet US",
+      "id": 465310,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "Cartoon Network US",
+      "id": 464853,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "Comedy Central US",
+      "id": 464922,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "Discovery Channel US",
+      "id": 465364,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "HBO Comedy US",
+      "id": 464953,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "Nickelodeon US",
+      "id": 465251,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "truTV US",
+      "id": 464987,
+      "region": "US",
+      "category": "entertainment",
+      "source": "epg.pw"
+    },
+    {
+      "name": "TNT US",
+      "id": 465114,
+      "region": "US",
+      "category": "entertainment",
+      "source": "epg.pw"
+    },
+    {
+      "name": "CBS News US",
+      "id": 464941,
+      "region": "US",
+      "category": "news",
+      "source": "epg.pw"
+    },
+    {
+      "name": "CNBC US",
+      "id": 464791,
+      "region": "US",
+      "category": "news",
+      "source": "epg.pw"
+    },
+    {
+      "name": "Newsmax US",
+      "id": 464863,
+      "region": "US",
+      "category": "news",
+      "source": "epg.pw"
+    },
+    {
+      "name": "FOX League",
+      "id": 446963,
+      "region": "AU",
+      "category": "sport"
+    },
+    {
+      "name": "Fox Sports 503",
+      "id": 447015,
+      "region": "AU",
+      "category": "sport"
+    },
+    {
+      "name": "FOX Footy",
+      "id": 447019,
+      "region": "AU",
+      "category": "sport"
+    },
+    {
+      "name": "FOX Cricket",
+      "id": 446968,
+      "region": "AU",
+      "category": "sport"
+    },
+    {
+      "name": "Fox Sports 505",
+      "id": 447007,
+      "region": "AU",
+      "category": "sport"
+    },
+    {
+      "name": "Fox Sports 506",
+      "id": 446961,
+      "region": "AU",
+      "category": "sport"
+    },
+    {
+      "name": "Bloomberg",
+      "id": 6110,
+      "region": "US",
+      "category": "news"
+    },
+    {
+      "name": "CNBC",
+      "id": 7574,
+      "region": "US",
+      "category": "news"
+    },
+    {
+      "name": "National Geographic HD",
+      "id": 465089,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "HBO (Pacific)",
+      "id": 465249,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "HBO Signature HD",
+      "id": 465279,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "HBO Zone HD",
+      "id": 465104,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "Cooking Channel HD",
+      "id": 465211,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "TBS HD",
+      "id": 465285,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "Lifetime HD",
+      "id": 465290,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "Hallmark Mystery HD",
+      "id": 465167,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "Cinemax HD",
+      "id": 464917,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "Hallmark Family",
+      "id": 464897,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "Hallmark Channel HD",
+      "id": 465241,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "Game Show Network HD",
+      "id": 464810,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "FXX HD",
+      "id": 465357,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "FX Movie Channel HD",
+      "id": 465400,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "FX HD",
+      "id": 464813,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "E! Entertainment Television HD",
+      "id": 464832,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "Bravo HD",
+      "id": 464753,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "BET HD",
+      "id": 464968,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "BBC America HD",
+      "id": 465025,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "AMC HD",
+      "id": 465032,
+      "region": "US",
+      "category": "entertainment"
+    },
+    {
+      "name": "The Travel Channel HD",
+      "id": 465186,
+      "region": "US",
+      "category": "entertainment"
+    }
   ]
 }

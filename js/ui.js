@@ -181,8 +181,8 @@ function getFilteredChannels() {
         filtered = filtered.filter(ch => ch.region === filters.region);
     }
 
-    // Custom sorting: Region (NZ, UK, US) then Category (entertainment, sport, news)
-    const regionPriority = { 'NZ': 1, 'UK': 2, 'US': 3 };
+    // Custom sorting: Region (NZ, UK, US, AU) then Category (entertainment, sport, news)
+    const regionPriority = { 'NZ': 1, 'UK': 2, 'US': 3, 'AU': 4 };
     const categoryPriority = { 'entertainment': 1, 'sport': 2, 'news': 3 };
 
     return filtered.sort((a, b) => {

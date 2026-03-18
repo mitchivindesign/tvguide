@@ -16,6 +16,10 @@ export const REGIONAL_CONFIG = {
     'NZ': {
         timezone: 'Pacific/Auckland',
         shift: 1 * 60 * 60 * 1000 // 1 hour normalization shift
+    },
+    'AU': {
+        timezone: 'Australia/Brisbane',
+        shift: 0
     }
 };
 
