@@ -1,7 +1,8 @@
-import { MS_PER_DAY, REGIONAL_CONFIG } from './config.js';
+import { REGIONAL_CONFIG } from './config.js';
 import { getDateString, parseXMLTVDate } from './utils.js';
 
 const API_BASE_URL = 'https://epg.pw/api/epg.json';
+const MS_PER_DAY = 86400000;
 
 // Fetch cache: { channelId: { programs: Array, timestamp: number } }
 const epgCache = new Map();
@@ -95,6 +96,7 @@ async function fetchJSONPrograms(channelId, region, now) {
     const nowObj = new Date(now);
     const today = getDateString(nowObj);
     const tomorrow = getDateString(new Date(now + MS_PER_DAY));
+    // epg.pw expects the timezone as a base64-encoded string
     const encodedTz = btoa(tz);
     const tzParam = `&timezone=${encodedTz}`;
     

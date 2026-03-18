@@ -4,7 +4,6 @@ import { fetchEPGForChannel } from './api.js';
 import { state } from './state.js';
 
 const COLLAPSE_DELAY = 7000;
-let collapseTimeout = null;
 let lastRenderId = 0;
 
 function collapseBlock(block) {
@@ -43,39 +42,38 @@ function createProgramBlock(program, nextProgram, now) {
         <div class="program-time">${formatTime(start)} - ${formatTime(end)} <span class="program-date">${formatDate(start)}</span></div>
     `;
 
-    requestAnimationFrame(() => {
-        const titleElement = programDiv.querySelector('.program-title');
+    const titleElement = programDiv.querySelector('.program-title');
+    let collapseTimeout = null;
 
-        const startCollapseTimer = () => {
+    const startCollapseTimer = () => {
+        clearTimeout(collapseTimeout);
+        collapseTimeout = setTimeout(() => collapseBlock(programDiv), COLLAPSE_DELAY);
+    };
+
+    programDiv.addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.querySelectorAll('.program.expanded').forEach(block => {
+            if (block !== programDiv) collapseBlock(block);
+        });
+        if (programDiv.classList.contains('expanded')) {
+            collapseBlock(programDiv);
             clearTimeout(collapseTimeout);
-            collapseTimeout = setTimeout(() => collapseBlock(programDiv), COLLAPSE_DELAY);
-        };
+        } else {
+            const currentScale = getScale();
+            const titleWidth = titleElement.scrollWidth + (parseInt(getComputedStyle(programDiv).paddingLeft) * 2) + 20;
+            const expandedWidth = Math.max(parseFloat(programDiv.dataset.originalWidth), titleWidth, 250 * currentScale);
+            programDiv.classList.add('expanded');
+            programDiv.style.width = `${expandedWidth}px`;
+            startCollapseTimer();
+        }
+    });
 
-        programDiv.addEventListener('click', (e) => {
-            e.stopPropagation();
-            document.querySelectorAll('.program.expanded').forEach(block => {
-                if (block !== programDiv) collapseBlock(block);
-            });
-            if (programDiv.classList.contains('expanded')) {
-                collapseBlock(programDiv);
-                clearTimeout(collapseTimeout);
-            } else {
-                const currentScale = getScale();
-                const titleWidth = titleElement.scrollWidth + (parseInt(getComputedStyle(programDiv).paddingLeft) * 2) + 20;
-                const expandedWidth = Math.max(parseFloat(programDiv.dataset.originalWidth), titleWidth, 250 * currentScale);
-                programDiv.classList.add('expanded');
-                programDiv.style.width = `${expandedWidth}px`;
-                startCollapseTimer();
-            }
-        });
+    programDiv.addEventListener('mouseenter', () => {
+        if (programDiv.classList.contains('expanded')) clearTimeout(collapseTimeout);
+    });
 
-        programDiv.addEventListener('mouseenter', () => {
-            if (programDiv.classList.contains('expanded')) clearTimeout(collapseTimeout);
-        });
-
-        programDiv.addEventListener('mouseleave', () => {
-            if (programDiv.classList.contains('expanded')) startCollapseTimer();
-        });
+    programDiv.addEventListener('mouseleave', () => {
+        if (programDiv.classList.contains('expanded')) startCollapseTimer();
     });
 
     return programDiv;
@@ -198,5 +196,3 @@ export function updateClock() {
     label.innerHTML = `<span class="clock-time">${formatTime(viewTime)}</span>`;
     if (backBtn) backBtn.disabled = timeOffset === 0;
 }
-
-

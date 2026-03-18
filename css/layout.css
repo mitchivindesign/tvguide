@@ -229,6 +229,11 @@
         border-color: var(--color-accent);
     }
 
+    .btn-icon {
+        width: 40%;
+        height: 40%;
+    }
+
     .mobile-search-bar {
         display: none;
         align-items: center;

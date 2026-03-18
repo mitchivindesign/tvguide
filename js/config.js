@@ -1,9 +1,9 @@
-// Display constants
+// Pixels rendered per minute of program duration
 export const PIXELS_PER_MINUTE = 8;
+// Minimum block width in pixels (prevents tiny unreadable blocks)
 export const MIN_PROGRAM_WIDTH = 120;
 
 // Time constants (milliseconds)
-export const MS_PER_DAY = 86400000;
 export const MS_PER_HOUR = 3600000;
 export const REFRESH_INTERVAL = 10 * 60 * 1000;
 
@@ -14,7 +14,8 @@ let channelsData = null;
 export const REGIONAL_CONFIG = {
     'NZ': {
         timezone: 'Pacific/Auckland',
-        shift: 1 * 60 * 60 * 1000 // 1 hour normalization shift
+        // epg.pw returns NZ times 1 hour behind — shift corrects the offset
+        shift: 1 * 60 * 60 * 1000
     },
     'AU': {
         timezone: 'Australia/Brisbane'

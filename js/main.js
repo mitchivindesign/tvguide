@@ -94,14 +94,12 @@ function initEventListeners() {
     if (timeBack) {
         timeBack.addEventListener('click', () => {
             state.setTimeOffset(state.timeOffset - 1);
-            updateClock();
         });
     }
 
     if (timeForward) {
         timeForward.addEventListener('click', () => {
             state.setTimeOffset(state.timeOffset + 1);
-            updateClock();
         });
     }
 
@@ -137,6 +135,7 @@ function initEventListeners() {
 
     // Subscribe to state changes
     state.subscribe(async () => {
+        updateClock();
         await renderEPG();
     });
 }
