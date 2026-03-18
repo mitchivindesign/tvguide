@@ -110,35 +110,29 @@ function initEventListeners() {
     if (epg) {
         let touchStartX = 0;
         let touchStartY = 0;
-        let lastY = 0;
         let lockedAxis = null;
 
         epg.addEventListener('touchstart', (e) => {
             touchStartX = e.touches[0].clientX;
             touchStartY = e.touches[0].clientY;
-            lastY = e.touches[0].clientY;
             lockedAxis = null;
+            epg.style.touchAction = 'pan-x pan-y';
         }, { passive: true });
 
         epg.addEventListener('touchmove', (e) => {
+            if (lockedAxis) return;
             const dx = Math.abs(e.touches[0].clientX - touchStartX);
             const dy = Math.abs(e.touches[0].clientY - touchStartY);
+            if (dx < 4 && dy < 4) return;
 
-            if (!lockedAxis && (dx > 4 || dy > 4)) {
-                lockedAxis = dx > dy ? 'x' : 'y';
-            }
+            lockedAxis = dx > dy ? 'x' : 'y';
+            epg.style.touchAction = lockedAxis === 'y' ? 'pan-y' : 'pan-x';
+        }, { passive: true });
 
-            if (lockedAxis === 'y') {
-                // Block horizontal, manually drive vertical scroll
-                e.preventDefault();
-                const currentY = e.touches[0].clientY;
-                epg.scrollTop -= currentY - lastY;
-                lastY = currentY;
-            }
-            // lockedAxis === 'x': let browser handle horizontal natively
-        }, { passive: false });
-
-        epg.addEventListener('touchend', () => { lockedAxis = null; }, { passive: true });
+        epg.addEventListener('touchend', () => {
+            lockedAxis = null;
+            epg.style.touchAction = 'pan-x pan-y';
+        }, { passive: true });
     }
 
     // Subscribe to state changes
