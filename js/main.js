@@ -125,7 +125,7 @@ function initEventListeners() {
             const dy = Math.abs(e.touches[0].clientY - touchStartY);
             if (dx < 4 && dy < 4) return;
 
-            lockedAxis = dx > dy ? 'x' : 'y';
+            lockedAxis = dx > dy * 2.5 ? 'x' : 'y';
             epg.style.touchAction = lockedAxis === 'y' ? 'pan-y' : 'pan-x';
         }, { passive: true });
 
