@@ -52,19 +52,18 @@ export async function fetchEPGForChannel(channel, now = Date.now()) {
  * Fetch programs from XMLTV source
  */
 async function fetchXMLTVPrograms(url, xmlid) {
-    const now = Date.now();
+    const fetchTime = Date.now();
     let doc;
-    
-    // Cache XML document
+
     const cachedXml = xmlCache.get(url);
-    if (cachedXml && (now - cachedXml.timestamp) < CACHE_DURATION) {
+    if (cachedXml && (fetchTime - cachedXml.timestamp) < CACHE_DURATION) {
         doc = cachedXml.doc;
     } else {
         const response = await fetch(url);
         if (!response.ok) throw new Error(`XML fetch failed: ${response.status}`);
         const text = await response.text();
         doc = new DOMParser().parseFromString(text, 'text/xml');
-        xmlCache.set(url, { doc, timestamp: now });
+        xmlCache.set(url, { doc, timestamp: fetchTime });
     }
 
     const programs = [];
@@ -124,10 +123,6 @@ function processPrograms(today, tomorrow, now, shift = 0) {
 
 /**
  * Find the index of the current or next program
- * @param {Array} programs - Array of program objects
- * @param {number} now - Current timestamp
- * @param {number} timezoneOffset - Timezone offset in hours
- * @returns {number} Index of current/next program
  */
 function findCurrentProgramIndex(programs, now) {
     for (let i = 0; i < programs.length; i++) {
@@ -136,12 +131,10 @@ function findCurrentProgramIndex(programs, now) {
             ? new Date(programs[i + 1].start_date)
             : null;
         
-        // If we're in this program
         if (programStart.getTime() <= now && (!nextProgramStart || nextProgramStart.getTime() > now)) {
             return i;
         }
         
-        // If this program starts in the future
         if (programStart.getTime() > now) {
             return i;
         }

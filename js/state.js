@@ -5,6 +5,7 @@ class State {
     constructor() {
         this.regionFilter = 'all';
         this.categoryFilter = 'all';
+        this.searchQuery = '';
         this.listeners = [];
     }
 
@@ -18,10 +19,16 @@ class State {
         this.notify();
     }
 
+    setSearchQuery(value) {
+        this.searchQuery = value;
+        this.notify();
+    }
+
     getFilters() {
         return {
             region: this.regionFilter,
-            category: this.categoryFilter
+            category: this.categoryFilter,
+            search: this.searchQuery
         };
     }
 

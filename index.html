@@ -3,8 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description"
         content="Multi-region Electronic Program Guide for sports, news, and entertainment channels">
     <title>Global Guide - Multi-Region TV Guide</title>
@@ -13,24 +12,75 @@
 
 <body>
     <header class="header">
-        <div id="clock" role="timer" aria-live="off"></div>
+        <div id="clock" role="timer" aria-live="polite" aria-atomic="true"></div>
+        <div class="search-wrap">
+            <input type="text" id="searchInput" placeholder="Search programs..." aria-label="Search programs" autocomplete="off" />
+        </div>
         <div class="controls">
             <select id="categoryFilter" aria-label="Filter by category">
                 <option value="all">All Channels</option>
                 <option value="sport">Sport</option>
-                <option value="news">News</option>
                 <option value="entertainment">Entertainment</option>
+                <option value="lifestyle">Lifestyle</option>
+                <option value="movies">Movies</option>
+                <option value="news">News</option>
             </select>
             <select id="regionFilter" aria-label="Filter by region">
                 <option value="all">All Regions</option>
                 <option value="NZ">New Zealand</option>
                 <option value="UK">United Kingdom</option>
-                <option value="US">United States</option>
                 <option value="AU">Australia</option>
+                <option value="US">United States</option>
             </select>
+        </div>
+        <!-- Mobile only -->
+        <div class="mobile-controls">
+            <select id="categoryFilterMobile" aria-label="Filter by category">
+                <option value="all">All Channels</option>
+                <option value="sport">Sport</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="lifestyle">Lifestyle</option>
+                <option value="movies">Movies</option>
+                <option value="news">News</option>
+            </select>
+            <select id="regionFilterMobile" aria-label="Filter by region">
+                <option value="all">All Regions</option>
+                <option value="NZ">New Zealand</option>
+                <option value="UK">United Kingdom</option>
+                <option value="AU">Australia</option>
+                <option value="US">United States</option>
+            </select>
+            <span class="mobile-divider"></span>
+            <button id="searchToggle" aria-label="Search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:40%;height:40%;">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-search-bar">
+            <input type="text" id="searchInputMobile" placeholder="Search programs..." aria-label="Search programs" autocomplete="off" />
+            <span class="mobile-divider"></span>
+            <button id="searchClose" aria-label="Close search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:40%;height:40%;">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
         </div>
     </header>
     <main id="epg"></main>
+
+    <div id="debug-slider" style="display:none;position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--color-bg-secondary);border:1px solid var(--color-border-light);border-radius:var(--radius-md);padding:10px 14px;flex-direction:column;gap:8px;font-size:12px;color:var(--color-text-tertiary);">
+        <div style="display:flex;align-items:center;gap:10px;">
+            <label for="scaleSlider" style="white-space:nowrap;min-width:40px;">Grid</label>
+            <input type="range" id="scaleSlider" min="0.5" max="2" step="0.05" value="1" style="width:120px;accent-color:var(--color-accent);">
+            <span id="scaleValue" style="min-width:32px;color:var(--color-accent);">1×</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+            <label for="headerScaleSlider" style="white-space:nowrap;min-width:40px;">Header</label>
+            <input type="range" id="headerScaleSlider" min="0.5" max="2" step="0.05" value="1" style="width:120px;accent-color:var(--color-accent);">
+            <span id="headerScaleValue" style="min-width:32px;color:var(--color-accent);">1×</span>
+        </div>
+    </div>
     <script type="module" src="js/main.js"></script>
 </body>
 

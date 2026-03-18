@@ -5,8 +5,7 @@ export const MIN_PROGRAM_WIDTH = 120;
 // Time constants (milliseconds)
 export const MS_PER_DAY = 86400000;
 export const MS_PER_HOUR = 3600000;
-export const MS_PER_MINUTE = 60000;
-export const REFRESH_INTERVAL = 10 * MS_PER_MINUTE;
+export const REFRESH_INTERVAL = 10 * 60 * 1000;
 
 // Channel data loaded dynamically
 let channelsData = null;
@@ -18,8 +17,7 @@ export const REGIONAL_CONFIG = {
         shift: 1 * 60 * 60 * 1000 // 1 hour normalization shift
     },
     'AU': {
-        timezone: 'Australia/Brisbane',
-        shift: 0
+        timezone: 'Australia/Brisbane'
     }
 };
 

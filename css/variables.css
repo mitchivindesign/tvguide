@@ -1,30 +1,31 @@
 :root {
-    /* Colors - Modern neutral palette */
+    /* Colors */
     --color-bg-primary: #0F172A;
     --color-bg-secondary: #1E293B;
     --color-bg-tertiary: #334155;
-    
+
     --color-text-primary: #F8FAFC;
     --color-text-secondary: #CBD5E1;
     --color-text-tertiary: #94A3B8;
-    
+
     --color-accent: #10B981;
     --color-accent-dim: rgba(16, 185, 129, 0.12);
     --color-accent-hover: rgba(16, 185, 129, 0.2);
-    
+
     --color-border: rgba(148, 163, 184, 0.1);
     --color-border-light: rgba(148, 163, 184, 0.15);
-    
+
     --color-overlay: rgba(255, 255, 255, 0.02);
     --color-overlay-hover: rgba(255, 255, 255, 0.05);
-    
+
+    --color-error: #ff6b6b;
+
     /* Spacing */
     --spacing-xs: 8px;
     --spacing-sm: 12px;
     --spacing-md: 20px;
     --spacing-lg: 28px;
-    --spacing-xl: 36px;
-    
+
     /* Typography */
     --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
     --font-size-xs: 10px;
@@ -32,23 +33,46 @@
     --font-size-base: 13px;
     --font-size-md: 14px;
     --font-size-lg: 18px;
-    --font-size-xl: 24px;
-    
+
     --font-weight-normal: 400;
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
-    
+
     /* Layout */
-    --header-height: 70px;
-    --channel-name-width: 100px;
-    --channel-row-height: 70px;
-    --channel-logo-size: 60px;
-    
+    --scale: 1;
+    --header-scale: 1;
+    --header-height: calc(50px * var(--header-scale));
+    --channel-name-width: calc(100px * var(--scale));
+    --channel-row-height: calc(70px * var(--scale));
+    --channel-logo-size: calc(60px * var(--scale));
+    --program-min-width: calc(120px * var(--scale));
+
+    /* Controls */
+    --search-width: calc(200px * var(--header-scale));
+    --select-min-width: calc(140px * var(--header-scale));
+    --chevron-size: calc(16px * var(--header-scale));
+    --scrollbar-size: 8px;
+    --divider-height: calc(20px * var(--header-scale));
+
     /* Border radius */
     --radius-sm: 4px;
     --radius-md: 6px;
     --radius-lg: 8px;
-    
+
     /* Transitions */
     --transition-fast: 0.15s ease;
+}
+
+@media (max-width: 767px) {
+    :root {
+        --scale: 0.85;
+        --header-scale: 1;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1400px) {
+    :root {
+        --scale: 1.3;
+        --header-scale: 1.5;
+    }
 }

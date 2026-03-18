@@ -1,3 +1,8 @@
+/**
+ * Format a Date object to HH:MM string
+ * @param {Date} date - The date to format
+ * @returns {string} Formatted time string
+ */
 export function formatTime(date) {
     return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
 }
@@ -24,7 +29,6 @@ export function cleanTitle(title) {
     return (title || '').replace(/^[⋗⋖\s]+/, '').trim();
 }
 
-
 /**
  * Get date string in YYYYMMDD format
  * @param {Date} date - The date to format
@@ -36,6 +40,7 @@ export function getDateString(date) {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}${month}${day}`;
 }
+
 /**
  * Parse XMLTV date string (YYYYMMDDHHMMSS +Offset)
  * @param {string} xmltvDate - Date string from XMLTV

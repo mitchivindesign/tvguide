@@ -6,22 +6,87 @@ import { state } from './state.js';
  * Initialize event listeners
  */
 function initEventListeners() {
-    // Category filter
     const categoryFilter = document.getElementById('categoryFilter');
-    if (categoryFilter) {
-        categoryFilter.addEventListener('change', (e) => {
-            state.setCategoryFilter(e.target.value);
-        });
-    }
-    
-    // Region filter
+    const categoryFilterMobile = document.getElementById('categoryFilterMobile');
     const regionFilter = document.getElementById('regionFilter');
-    if (regionFilter) {
-        regionFilter.addEventListener('change', (e) => {
-            state.setRegionFilter(e.target.value);
+    const regionFilterMobile = document.getElementById('regionFilterMobile');
+
+    const onCategory = (e) => {
+        if (categoryFilter) categoryFilter.value = e.target.value;
+        if (categoryFilterMobile) categoryFilterMobile.value = e.target.value;
+        state.setCategoryFilter(e.target.value);
+    };
+
+    const onRegion = (e) => {
+        if (regionFilter) regionFilter.value = e.target.value;
+        if (regionFilterMobile) regionFilterMobile.value = e.target.value;
+        state.setRegionFilter(e.target.value);
+    };
+
+    if (categoryFilter) categoryFilter.addEventListener('change', onCategory);
+    if (categoryFilterMobile) categoryFilterMobile.addEventListener('change', onCategory);
+    if (regionFilter) regionFilter.addEventListener('change', onRegion);
+    if (regionFilterMobile) regionFilterMobile.addEventListener('change', onRegion);
+
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            state.setSearchQuery(e.target.value.trim().toLowerCase());
         });
     }
-    
+
+    // Mobile search toggle
+    const searchToggle = document.getElementById('searchToggle');
+    const searchClose = document.getElementById('searchClose');
+    const mobileControls = document.querySelector('.mobile-controls');
+    const mobileSearchBar = document.querySelector('.mobile-search-bar');
+    const searchInputMobile = document.getElementById('searchInputMobile');
+
+    if (searchToggle) {
+        searchToggle.addEventListener('click', () => {
+            mobileControls.classList.add('hidden');
+            mobileSearchBar.classList.add('active');
+            searchInputMobile.focus();
+        });
+    }
+
+    if (searchClose) {
+        searchClose.addEventListener('click', () => {
+            mobileSearchBar.classList.remove('active');
+            mobileControls.classList.remove('hidden');
+            searchInputMobile.value = '';
+            state.setSearchQuery('');
+        });
+    }
+
+    if (searchInputMobile) {
+        searchInputMobile.addEventListener('input', (e) => {
+            state.setSearchQuery(e.target.value.trim().toLowerCase());
+        });
+    }
+
+    // Debug scale slider
+    const scaleSlider = document.getElementById('scaleSlider');
+    const scaleValue = document.getElementById('scaleValue');
+    if (scaleSlider) {
+        scaleSlider.addEventListener('input', async () => {
+            const v = parseFloat(scaleSlider.value);
+            document.documentElement.style.setProperty('--scale', v);
+            scaleValue.textContent = `${v}×`;
+            await renderEPG();
+        });
+    }
+
+    const headerScaleSlider = document.getElementById('headerScaleSlider');
+    const headerScaleValue = document.getElementById('headerScaleValue');
+    if (headerScaleSlider) {
+        headerScaleSlider.addEventListener('input', () => {
+            const v = parseFloat(headerScaleSlider.value);
+            document.documentElement.style.setProperty('--header-scale', v);
+            headerScaleValue.textContent = `${v}×`;
+        });
+    }
+
     // Subscribe to state changes
     state.subscribe(async () => {
         await renderEPG();
@@ -33,20 +98,13 @@ function initEventListeners() {
  */
 async function init() {
     try {
-        // Load channels first
         await loadChannels();
-        
-        // Initial render
         await renderEPG();
-        
-        // Start clock
+
         updateClock();
         setInterval(updateClock, 1000);
-        
-        // Auto-refresh EPG
         setInterval(renderEPG, REFRESH_INTERVAL);
-        
-        // Setup event listeners
+
         initEventListeners();
     } catch (error) {
         console.error('Failed to initialize application:', error);
@@ -57,7 +115,6 @@ async function init() {
     }
 }
 
-// Start the application when DOM is ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
 } else {
