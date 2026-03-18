@@ -45,8 +45,6 @@ function createProgramBlock(program, nextProgram, now) {
 
     requestAnimationFrame(() => {
         const titleElement = programDiv.querySelector('.program-title');
-        const titleNeededWidth = titleElement.scrollWidth + (parseInt(getComputedStyle(programDiv).paddingLeft) * 2) + 20;
-        programDiv.dataset.expandedWidth = Math.max(width, titleNeededWidth, 250 * scale);
 
         const startCollapseTimer = () => {
             clearTimeout(collapseTimeout);
@@ -62,11 +60,9 @@ function createProgramBlock(program, nextProgram, now) {
                 collapseBlock(programDiv);
                 clearTimeout(collapseTimeout);
             } else {
-                // Recalculate at click time for accurate scrollWidth
                 const currentScale = getScale();
                 const titleWidth = titleElement.scrollWidth + (parseInt(getComputedStyle(programDiv).paddingLeft) * 2) + 20;
                 const expandedWidth = Math.max(parseFloat(programDiv.dataset.originalWidth), titleWidth, 250 * currentScale);
-                programDiv.dataset.expandedWidth = expandedWidth;
                 programDiv.classList.add('expanded');
                 programDiv.style.width = `${expandedWidth}px`;
                 startCollapseTimer();

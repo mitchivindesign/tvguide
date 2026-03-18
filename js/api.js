@@ -105,13 +105,13 @@ async function fetchJSONPrograms(channelId, region, now) {
             .then(r => r.ok ? r.json() : Promise.reject(r.status))
     ]);
     
-    return processPrograms(todayData, tomorrowData, now, regional.shift);
+    return processPrograms(todayData, tomorrowData, regional.shift);
 }
 
 /**
  * Process and normalize program times
  */
-function processPrograms(today, tomorrow, now, shift = 0) {
+function processPrograms(today, tomorrow, shift = 0) {
     const allPrograms = [...(today.epg_list || []), ...(tomorrow.epg_list || [])].map(p => {
         if (!shift) return p;
         const shiftedStart = new Date(new Date(p.start_date).getTime() + shift);

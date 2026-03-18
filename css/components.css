@@ -37,7 +37,6 @@
     display: block;
 }
 
-
 .programs {
     display: flex;
     height: 100%;
@@ -114,7 +113,6 @@
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     width: 100%;
 }
@@ -126,7 +124,9 @@
 
 .program-date {
     display: none;
-    margin-left: auto;
+    padding-left: calc(var(--spacing-sm) * var(--scale));
+    margin-left: calc(var(--spacing-sm) * var(--scale));
+    border-left: 1px solid currentColor;
 }
 
 .program.expanded .program-date {
