@@ -6,10 +6,22 @@
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border-light);
     gap: var(--spacing-lg);
     height: var(--header-height);
     flex-shrink: 0;
+    position: relative;
+}
+
+.header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgb(0 217 126 / 20%) 50%, transparent);
+    pointer-events: none;
 }
 
 .search-wrap {
@@ -55,7 +67,7 @@
 .controls select {
     appearance: none;
     background-color: var(--color-bg-tertiary);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2310B981'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2300d97e'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right calc(var(--spacing-sm) * var(--header-scale)) center;
     background-size: var(--chevron-size);
@@ -186,7 +198,7 @@
         flex: 1;
         appearance: none;
         background-color: var(--color-bg-tertiary);
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2310B981'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2300d97e'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: right calc(var(--spacing-sm) * var(--header-scale)) center;
         background-size: var(--chevron-size);
