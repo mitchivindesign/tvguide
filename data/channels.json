@@ -37,7 +37,6 @@
 
     { "name": "ESPN U",                   "id": 465108, "region": "US", "category": "sport" },
     { "name": "Lifetime Movie Network",   "id": 464987, "region": "US", "category": "entertainment" },
-    { "name": "Nat Geo Wild",             "id": 465301, "region": "US", "category": "entertainment" },
     { "name": "Animal Planet",            "id": 465310, "region": "US", "category": "entertainment" },
     { "name": "Discovery Science",        "id": 465096, "region": "US", "category": "entertainment" },
     { "name": "History",                  "id": 465176, "region": "US", "category": "entertainment" }
