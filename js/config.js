@@ -13,9 +13,7 @@ let channelsData = null;
 // Regional configuration for API queries and time normalization
 export const REGIONAL_CONFIG = {
     'NZ': {
-        timezone: 'Pacific/Auckland',
-        // epg.pw returns NZ times 1 hour behind — shift corrects the offset
-        shift: 1 * 60 * 60 * 1000
+        timezone: 'Pacific/Auckland'
     },
     'AU': {
         timezone: 'Australia/Brisbane'
